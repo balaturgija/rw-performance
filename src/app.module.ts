@@ -3,6 +3,7 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 // import { CacheModule } from '@nestjs/cache-manager';
 // import { RedisModule } from './redis/redis.module';
+import { PokemonsModule } from './pokemons/pokemons.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
     }),
     DatabaseModule,
+    PokemonsModule,
     // RedisModule,
   ],
 })
