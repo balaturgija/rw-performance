@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 // import { CacheModule } from '@nestjs/cache-manager';
-import { RedisModule } from './redis/redis.module';
+// import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -11,7 +11,7 @@ import { RedisModule } from './redis/redis.module';
       isGlobal: true,
     }),
     DatabaseModule,
-    RedisModule,
+    // RedisModule,
   ],
 })
 export class AppModule {}

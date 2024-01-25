@@ -1,0 +1,20 @@
+FROM node:21.6-bookworm-slim as base
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN yarn install --frozen-lockfile
+COPY . .
+
+FROM node:21.6-bookworm-slim as dev
+WORKDIR /usr/src/app
+COPY --from=base /usr/src/app .
+CMD [ "yarn", "start:dev" ]
+
+FROM node:21.6-bookworm-slim as debug
+WORKDIR /usr/src/app
+COPY --from=base /usr/src/app .
+CMD [ "yarn", "start:debug" ]
+
+FROM node:21.6-bookworm-slim as test
+WORKDIR /usr/src/app
+COPY --from=base /usr/src/app .
+RUN yarn test:cov
