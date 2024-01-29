@@ -3,6 +3,9 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { RequestBodyValidationPipe } from './common/pipes/request-body.validation.pipe';
+import { RequestQueryValidationPipe } from './common/pipes/request-query.validation.pipe';
+import { CommonExceptionFilter } from './common/filters/common-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,6 +28,12 @@ async function bootstrap() {
       persistAuthorization: true,
     },
   });
+
+  app.useGlobalPipes(
+    new RequestBodyValidationPipe(),
+    new RequestQueryValidationPipe(),
+  );
+  app.useGlobalFilters(new CommonExceptionFilter());
 
   await app.listen(process.env.API_PORT);
 }

@@ -13,7 +13,7 @@ export const redisConfig: CacheModuleAsyncOptions = {
       }),
     };
     try {
-      return store.store.getClient().auth(process.env.REDIS_PASSWORD);
+      return store;
     } catch (error) {
       throw new Error(error.name);
     }
