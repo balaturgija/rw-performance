@@ -6,11 +6,13 @@ import {
   Get,
   Param,
   Post,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 
 import { PokemonCreateDto } from './dto/pokemon-create.dto';
 import { PokemonsService } from './pokemons.service';
+import { PaginatePokemontDto } from './dto/paginate-pokemon.dto';
 
 @Controller('pokemons')
 export class PokemonsController {
@@ -20,8 +22,8 @@ export class PokemonsController {
   @UseInterceptors(CacheInterceptor)
   @CacheKey('pokemons')
   @CacheTTL(5)
-  async getAllPokemons() {
-    return await this.pokemonsService.getAllPokemons();
+  async getAllPokemons(@Query() pagiantePokemonsDto: PaginatePokemontDto) {
+    return await this.pokemonsService.getAllPokemons(pagiantePokemonsDto);
   }
 
   @Get(':id')
