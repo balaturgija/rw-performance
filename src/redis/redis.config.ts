@@ -11,6 +11,7 @@ export const redisConfig: CacheModuleAsyncOptions = {
         auth_pass: process.env.REDIS_PASSWORD,
         password: process.env.REDIS_PASSWORD,
       }),
+      ttl: Number(process.env.REDIS_TTL),
     };
     try {
       return store;

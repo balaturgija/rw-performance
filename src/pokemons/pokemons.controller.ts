@@ -29,7 +29,7 @@ export class PokemonsController {
   @Get(':id')
   @UseInterceptors(CacheInterceptor)
   @CacheKey('pokemons')
-  @CacheTTL(0)
+  @CacheTTL(5)
   async getPokemonById(@Param('id') id: string) {
     return await this.pokemonsService.getPokemonById(id);
   }
