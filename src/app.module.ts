@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
-// import { CacheModule } from '@nestjs/cache-manager';
-// import { RedisModule } from './redis/redis.module';
 import { PokemonsModule } from './pokemons/pokemons.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -11,9 +10,9 @@ import { PokemonsModule } from './pokemons/pokemons.module';
       envFilePath: `.env`,
       isGlobal: true,
     }),
+    RedisModule,
     DatabaseModule,
     PokemonsModule,
-    // RedisModule,
   ],
 })
 export class AppModule {}
