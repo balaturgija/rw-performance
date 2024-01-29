@@ -1,6 +1,7 @@
-import { Module, Global } from '@nestjs/common';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { Global, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { CacheModule, CacheInterceptor } from '@nestjs/cache-manager';
+
 import { redisConfig } from './redis.config';
 
 @Global()

@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
+
 import { PokemonCreateDto } from './dto/pokemon-create.dto';
 import { PokemonEntity } from './entities/pokemon.entity';
 
 @Injectable()
 export class PokemonsRepository {
+  async getAllPokemons() {
+    return await PokemonEntity.findAll();
+  }
+
   async getPokemonById(id: string) {
     return await PokemonEntity.findByPk(id);
   }
