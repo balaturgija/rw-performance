@@ -9,10 +9,9 @@ export const redisConfig: CacheModuleAsyncOptions = {
         host: process.env.REDIS_HOST,
         port: Number(process.env.REDIS_PORT),
       }),
-      // ttl: process.env.REDIS_TTL,
     };
     try {
-      return store;
+      return store.store.getClient().auth(process.env.REDIS_PASSWORD);
     } catch (error) {
       throw new Error(error.name);
     }
