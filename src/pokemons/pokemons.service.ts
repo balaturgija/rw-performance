@@ -4,6 +4,8 @@ import { Cache } from 'cache-manager';
 
 import { PokemonCreateDto } from './dto/pokemon-create.dto';
 import { PokemonsRepository } from './pokemons.repository';
+import { PokemonNotFoundException } from './exceptions/pokemon-not-found.exception';
+import { Pokemon } from './models/pokemon.model';
 
 @Injectable()
 export class PokemonsService {
@@ -13,14 +15,15 @@ export class PokemonsService {
     @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
   async getAllPokemons() {
-    try {
-      return await this.pokemonsRepository.getAllPokemons();
-    } catch (error) {
-      throw new Error(error);
-    }
+    return await this.pokemonsRepository.getAllPokemons();
   }
   async getPokemonById(id: string) {
-    return await this.pokemonsRepository.getPokemonById(id);
+    try {
+      const pokemon = await this.pokemonsRepository.getPokemonById(id);
+      return new Pokemon(pokemon);
+    } catch (error) {
+      throw new PokemonNotFoundException();
+    }
   }
   async createPokemon(pokemonCreateDto: PokemonCreateDto) {
     return await this.pokemonsRepository.createPokemon(pokemonCreateDto);
