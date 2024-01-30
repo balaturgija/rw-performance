@@ -13,6 +13,7 @@ import {
 import { PokemonCreateDto } from './dto/pokemon-create.dto';
 import { PokemonsService } from './pokemons.service';
 import { PaginatePokemontDto } from './dto/paginate-pokemon.dto';
+import { PokemonCacheInterceptor } from './pokemon-cache.interceptor';
 
 @Controller('pokemons')
 export class PokemonsController {
@@ -22,7 +23,7 @@ export class PokemonsController {
   @UseInterceptors(CacheInterceptor)
   @CacheKey('pokemons')
   @CacheTTL(5)
-  async getAllPokemons(@Query() pagiantePokemonsDto: PaginatePokemontDto) {
+  async paginatePokemons(@Query() pagiantePokemonsDto: PaginatePokemontDto) {
     return await this.pokemonsService.getAllPokemons(pagiantePokemonsDto);
   }
 
