@@ -1,57 +1,34 @@
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { CacheManagerOptions } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
-import { Cache } from 'cache-manager';
-import { RedisClientType } from 'redis';
+// import Redis from 'ioredis';
+import Redis, { RedisClientType, createClient } from 'redis';
 
 @Injectable()
 export class RedisService {
   constructor(
-    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
-    @Inject(CACHE_MANAGER) private readonly redisClient: RedisClientType,
+    @Inject('REDIS_CLIENT') private readonly redisClient: RedisClientType,
+    //@Inject('REDIS_CLIENT') private readonly redisClient: Redis,
   ) {}
 
   async getKey(key: string): Promise<string | null> {
-    try {
-      return await this.cacheManager.get(key);
-    } catch (error) {
-      throw new Error(error.name);
-    }
+    return await this.redisClient.get(key);
+  }
+
+  async setKey(key: string, data: any): Promise<string> {
+    return await this.redisClient.set(key, data, { EX: 30 });
   }
 
   async getHash(key: string, subKey: string): Promise<string> {
-    // try {
-    //   return new Promise((resolve, reject) => {
-    //     this.redisClient.hGet(
-    //       key,
-    //       subKey,
-    //       (err: Error | null, result: string) => {
-    //         if (err) reject(err);
-    //         resolve(result);
-    //       },
-    //     );
-    //   });
-    // } catch (error) {
-    //   throw new Error(error.name);
-    // }
-    return this.redisClient.hGet(key, subKey);
+    // return this.redisClient.hget(key, subKey);
+    return await this.redisClient.hGet(key, subKey);
   }
 
-  async setHash(key: string, subKey: string, data: string): Promise<number> {
-    // try {
-    //   return new Promise((resolve, reject) => {
-    //     this.redisClient.hset(
-    //       key,
-    //       subKey,
-    //       data,
-    //       (err: Error | null, result: number) => {
-    //         if (err) reject(err);
-    //         resolve(result);
-    //       },
-    //     );
-    //   });
-    // } catch (error) {
-    //   throw new Error(error.name);
-    // }
+  async setHash(key: string, subKey: string, data: any): Promise<number> {
+    // return await this.redisClient.hsetnx(key, subKey, data);
     return await this.redisClient.hSet(key, subKey, data);
+  }
+
+  async paginateCollection(key: string, pageSize: number, pageIndex: number) {
+    return await this.redisClient.zRange(key, pageSize, pageIndex);
   }
 }
