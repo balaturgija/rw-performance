@@ -19,28 +19,39 @@ import { PokemonCacheInterceptor } from './pokemon-cache.interceptor';
 export class PokemonsController {
   constructor(private readonly pokemonsService: PokemonsService) {}
 
-  @Get()
-  @UseInterceptors(CacheInterceptor)
-  @CacheKey('pokemons')
-  @CacheTTL(5)
-  async paginatePokemons(@Query() pagiantePokemonsDto: PaginatePokemontDto) {
-    return await this.pokemonsService.getAllPokemons(pagiantePokemonsDto);
+  // paginated hash map example
+  @Get('paginatePokemonsHashMap')
+  async paginateHashMap(@Query() pagiantePokemonsDto: PaginatePokemontDto) {
+    return await this.pokemonsService.paginateHashMap(pagiantePokemonsDto);
+  }
+
+  // key - value example
+
+  @Get('collection')
+  async getCollection() {
+    return await this.pokemonsService.getCollection();
+  }
+
+  // paginated key - value with altered key
+  @Get('keyValuePaginate')
+  async keyValuePaginate(@Query() pagiantePokemonsDto: PaginatePokemontDto) {
+    return await this.pokemonsService.keyValuePaginate(pagiantePokemonsDto);
+  }
+
+  // query key value collection
+  @Get('queryKeyValue')
+  async queryKeyValue(@Query() pagiantePokemonsDto: PaginatePokemontDto) {
+    return await this.pokemonsService.queryKeyValue(pagiantePokemonsDto);
+  }
+
+  // sorted set
+  @Get('sortedSet')
+  async sortedSet() {
+    return await this.pokemonsService.sortedSet();
   }
 
   @Get(':id')
-  @UseInterceptors(CacheInterceptor)
-  @CacheKey('pokemons')
-  @CacheTTL(5)
   async getPokemonById(@Param('id') id: string) {
     return await this.pokemonsService.getPokemonById(id);
-  }
-
-  @Post()
-  async createPokemon(@Body() createDataDto: PokemonCreateDto) {
-    return await this.pokemonsService.createPokemon(createDataDto);
-  }
-  @Delete()
-  async deletePokemon(@Param('id') id: string) {
-    return await this.pokemonsService.deletePokemon(id);
   }
 }

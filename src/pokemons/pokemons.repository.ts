@@ -13,6 +13,10 @@ export class PokemonsRepository {
     });
   }
 
+  async findAll() {
+    return await PokemonEntity.findAll({ raw: true });
+  }
+
   async getPokemonById(id: string) {
     return await PokemonEntity.findByPk(id);
   }

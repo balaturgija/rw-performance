@@ -3,7 +3,7 @@ import { Pokemon } from './pokemon.model';
 import { Pager } from 'src/common/types/pager';
 
 export interface PaginatePokemon {
-  currenPage: number;
+  currentPage: number;
   totalPages: number;
   totalItems: number;
   items: Pokemon[];
@@ -11,8 +11,8 @@ export interface PaginatePokemon {
 
 export class PaginatePokemon {
   constructor({ rows, count }: Paginated<Pokemon>, pager: Pager) {
-    this.currenPage = pager.pageNumber;
-    this.totalPages = Math.ceil((rows.length + 1) / pager.pageSize);
+    this.currentPage = pager.pageNumber;
+    this.totalPages = Math.ceil(count / pager.pageSize);
     this.totalItems = count;
     this.items = rows.map((pokemon) => new Pokemon(pokemon));
   }

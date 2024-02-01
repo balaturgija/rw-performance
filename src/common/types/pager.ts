@@ -4,7 +4,7 @@ export interface Pager {
 }
 
 export class Pager {
-  constructor(pageNumber = 1, pageSize = 15) {
+  constructor(pageNumber = 1, pageSize = 10) {
     this.pageNumber = Number(pageNumber);
     this.pageSize = Number(pageSize);
   }

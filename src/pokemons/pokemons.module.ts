@@ -9,6 +9,7 @@ import { PokemonCacheInterceptor } from './pokemon-cache.interceptor';
 import { RedisModule } from 'src/redis/redis.module';
 
 @Module({
+  imports: [RedisModule],
   controllers: [PokemonsController],
   providers: [
     PokemonsService,
