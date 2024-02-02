@@ -1,12 +1,13 @@
 import { CacheManagerOptions } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 // import Redis from 'ioredis';
-import Redis, { RedisClientType, createClient } from 'redis';
+import { RedisClientType } from 'redis';
+import { REDIS_CLIENT } from './types/redis-client.type';
 
 @Injectable()
 export class RedisService {
   constructor(
-    @Inject('REDIS_CLIENT') private readonly redisClient: RedisClientType,
+    @Inject(REDIS_CLIENT) private readonly redisClient: RedisClientType,
     //@Inject('REDIS_CLIENT') private readonly redisClient: Redis,
   ) {}
 
@@ -14,8 +15,12 @@ export class RedisService {
     return await this.redisClient.get(key);
   }
 
-  async setKey(key: string, data: any): Promise<string> {
-    return await this.redisClient.set(key, data, { EX: 30 });
+  async setKey(
+    key: string,
+    data: any,
+    expirationTime?: number,
+  ): Promise<string> {
+    return await this.redisClient.set(key, data, { EX: expirationTime });
   }
 
   async getHash(key: string, subKey: string): Promise<string> {
@@ -28,7 +33,15 @@ export class RedisService {
     return await this.redisClient.hSet(key, subKey, data);
   }
 
-  async paginateCollection(key: string, pageSize: number, pageIndex: number) {
-    return await this.redisClient.zRange(key, pageSize, pageIndex);
+  startTransaction() {
+    return this.redisClient.multi();
+  }
+
+  async customCommand(command: string[]) {
+    return await this.redisClient.sendCommand(command);
+  }
+
+  async getByName(name: string, key: string) {
+    return await this.redisClient.hGet(key, name);
   }
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { PokemonCreateDto } from './dto/pokemon-create.dto';
 import { PokemonEntity } from './entities/pokemon.entity';
 import { Pager } from 'src/common/types/pager';
+import { Generation } from './types/generation';
 
 @Injectable()
 export class PokemonsRepository {
@@ -13,8 +14,8 @@ export class PokemonsRepository {
     });
   }
 
-  async findAll() {
-    return await PokemonEntity.findAll({ raw: true });
+  async findAll(generation: Generation) {
+    return await PokemonEntity.findAll({ where: { generation } });
   }
 
   async getPokemonById(id: string) {
