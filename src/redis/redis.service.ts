@@ -1,7 +1,7 @@
-import { CacheManagerOptions } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 // import Redis from 'ioredis';
 import { RedisClientType } from 'redis';
+
 import { REDIS_CLIENT } from './types/redis-client.type';
 
 @Injectable()
