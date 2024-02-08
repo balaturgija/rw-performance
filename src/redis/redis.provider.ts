@@ -1,6 +1,7 @@
 // import { Redis } from 'ioredis';
 import { FactoryProvider } from '@nestjs/common';
-import { RedisClientType, createClient } from 'redis';
+import { createClient, RedisClientType } from 'redis';
+
 import { REDIS_CLIENT, RedisClient } from './types/redis-client.type';
 
 export const redisProvider: FactoryProvider<Promise<RedisClient>> = {
