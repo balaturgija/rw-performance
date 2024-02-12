@@ -26,7 +26,7 @@ export class OrderEntity extends Model<OrderEntity> {
   @PrimaryKey
   @IsUUID(4)
   @AllowNull(false)
-  @Default(() => v4)
+  @Default(() => v4())
   @Column({
     type: DataTypes.UUID,
   })
@@ -34,7 +34,7 @@ export class OrderEntity extends Model<OrderEntity> {
 
   @AllowNull(false)
   @Column({
-    type: DataTypes.ENUM(OrderType.Buy.toString(), OrderType.Sell.toString()),
+    type: DataTypes.ENUM(...Object.values(OrderType)),
   })
   type: OrderType;
 

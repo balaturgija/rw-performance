@@ -4,6 +4,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { SequelizeTypescriptMigration } from 'sequelize-typescript-migration-lts';
 import { OrderEntity } from 'src/orders/entities/order.entity';
 import { StockEntity } from 'src/stocks/entities/stock.entity';
+import { TransactionEntity } from 'src/transactions/entities/transaction.entity';
 
 export const databaseProviders = [
   {
@@ -16,7 +17,7 @@ export const databaseProviders = [
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
-        models: [StockEntity, OrderEntity],
+        models: [StockEntity, OrderEntity, TransactionEntity],
         define: {
           underscored: true,
           paranoid: true,
