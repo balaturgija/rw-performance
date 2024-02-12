@@ -3,6 +3,7 @@ import {
   AllowNull,
   Column,
   Default,
+  HasMany,
   IsDecimal,
   IsInt,
   IsUUID,
@@ -10,6 +11,7 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
+import { TransactionEntity } from 'src/transactions/entities/transaction.entity';
 import { v4 } from 'uuid';
 
 import { OrderStatus } from '../types/order-status';
@@ -53,6 +55,13 @@ export class OrderEntity extends Model<OrderEntity> {
   @IsDecimal
   @Column({
     type: DataTypes.DECIMAL(12, 2),
+    get() {
+      return parseFloat(`${this.getDataValue('price')}`);
+    },
   })
   price: number;
+
+  /** Association */
+  @HasMany(() => TransactionEntity)
+  transactions: TransactionEntity[];
 }

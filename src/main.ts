@@ -3,9 +3,9 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { CommonExceptionFilter } from './common/filters/common-exception.filter';
 import { RequestBodyValidationPipe } from './common/pipes/request-body.validation.pipe';
 import { RequestQueryValidationPipe } from './common/pipes/request-query.validation.pipe';
-import { CommonExceptionFilter } from './common/filters/common-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

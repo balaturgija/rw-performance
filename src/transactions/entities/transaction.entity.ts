@@ -5,7 +5,6 @@ import {
   Column,
   Default,
   ForeignKey,
-  HasMany,
   IsDecimal,
   IsInt,
   IsUUID,
