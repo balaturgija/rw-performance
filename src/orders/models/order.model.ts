@@ -1,3 +1,5 @@
+import { Transaction } from 'src/transactions/models/transaction.model';
+
 import { OrderStatus } from '../types/order-status';
 import { OrderType } from '../types/order-type';
 
@@ -8,6 +10,7 @@ export interface Order {
   type: OrderType;
   status: OrderStatus;
   createdAt?: Date;
+  transactions: Transaction[];
 }
 
 export class Order {
@@ -18,5 +21,6 @@ export class Order {
     this.type = order.type;
     this.status = order.status;
     this.createdAt = order.createdAt;
+    this.transactions = order.transactions.map((t) => new Transaction(t));
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Transaction } from 'sequelize';
 import { Order } from 'src/orders/models/order.model';
 
-import { TransactionCreate } from '../models/transaction.model';
+import { TransactionCreate } from '../models/transaction-create.model';
 import { TransactionsRepository } from '../transactions.repository';
 
 @Injectable()
