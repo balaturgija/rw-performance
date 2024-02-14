@@ -21,7 +21,7 @@ export class StockEntity extends Model<StockEntity> {
   @PrimaryKey
   @IsUUID(4)
   @AllowNull(false)
-  @Default(() => v4)
+  @Default(() => v4())
   @Column({
     type: DataTypes.UUID,
   })

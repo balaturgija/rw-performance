@@ -26,7 +26,7 @@ export class TransactionEntity extends Model<TransactionEntity> {
   @PrimaryKey
   @IsUUID(4)
   @AllowNull(false)
-  @Default(() => v4)
+  @Default(() => v4())
   @Column({
     type: DataTypes.UUID,
   })
