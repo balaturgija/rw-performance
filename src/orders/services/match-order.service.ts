@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-// import { Interval } from '@nestjs/schedule';
+import { Interval } from '@nestjs/schedule';
 import { Sequelize, Transaction } from 'sequelize';
 import { TransactionsService } from 'src/transactions/entities/transactions.service';
 
@@ -14,7 +14,7 @@ export class MatchOrdersService {
     private readonly transactionsService: TransactionsService,
   ) {}
 
-  // @Interval(10)
+  @Interval(2000)
   async matchOrders() {
     // first check cache
 
