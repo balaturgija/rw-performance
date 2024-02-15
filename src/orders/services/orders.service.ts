@@ -46,4 +46,14 @@ export class OrdersService {
 
     return await Promise.all(result);
   }
+
+  async createSellOrderBook() {
+    const orderBook = await this.ordersRepository.getOrderSellBook();
+    return orderBook.map((x) => x);
+  }
+
+  async createBuyOrderBook() {
+    const orderBook = await this.ordersRepository.getOrderBuyBook();
+    return orderBook.map((x) => x);
+  }
 }

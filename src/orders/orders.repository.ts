@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Transaction } from 'sequelize';
 import { SortDirection } from 'src/common/types/sort-direction';
-import { TransactionEntity } from 'src/transactions/entities/transaction.entity';
+import { OrderTransactionEntity } from 'src/order-transactions/entities/order-transaction.entity';
 
 import { OrderCreateDto } from './dto/order-create.dto';
 import { OrderEntity } from './entities/order.entity';
@@ -25,7 +25,7 @@ export class OrdersRepository {
         ['createdAt', SortDirection.Asc],
       ],
       //test this
-      include: [{ model: TransactionEntity, as: 'transactions' }],
+      include: [{ model: OrderTransactionEntity, as: 'transactions' }],
     });
   }
 
@@ -37,7 +37,7 @@ export class OrdersRepository {
         ['createdAt', SortDirection.Asc],
       ],
       //test this
-      include: [{ model: TransactionEntity, as: 'transactions' }],
+      include: [{ model: OrderTransactionEntity, as: 'transactions' }],
     });
   }
 
@@ -46,5 +46,49 @@ export class OrdersRepository {
       { status },
       { where: { id }, transaction: t },
     );
+  }
+
+  async getOrderSellBook() {
+    return await OrderEntity.findAll({
+      attributes: [
+        'price',
+        [
+          OrderEntity.sequelize.fn(
+            'sum',
+            OrderEntity.sequelize.col('quantity'),
+          ),
+          'totalQuantity',
+        ],
+        [
+          OrderEntity.sequelize.literal('SUM("price" * "quantity")'),
+          'totalAmount',
+        ],
+      ],
+      where: { type: OrderType.Sell, status: OrderStatus.Pending },
+      group: ['price'],
+      order: [['price', SortDirection.Asc]],
+    });
+  }
+
+  async getOrderBuyBook() {
+    return await OrderEntity.findAll({
+      attributes: [
+        'price',
+        [
+          OrderEntity.sequelize.fn(
+            'sum',
+            OrderEntity.sequelize.col('quantity'),
+          ),
+          'totalQuantity',
+        ],
+        [
+          OrderEntity.sequelize.literal('SUM("price" * "quantity")'),
+          'totalAmount',
+        ],
+      ],
+      where: { type: OrderType.Buy, status: OrderStatus.Pending },
+      group: ['price'],
+      order: [['price', SortDirection.Asc]],
+    });
   }
 }

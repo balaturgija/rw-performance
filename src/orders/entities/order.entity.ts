@@ -11,7 +11,7 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
-import { TransactionEntity } from 'src/transactions/entities/transaction.entity';
+import { OrderTransactionEntity } from 'src/order-transactions/entities/order-transaction.entity';
 import { v4 } from 'uuid';
 
 import { OrderStatus } from '../types/order-status';
@@ -62,6 +62,6 @@ export class OrderEntity extends Model<OrderEntity> {
   price: number;
 
   /** Association */
-  @HasMany(() => TransactionEntity)
-  transactions: TransactionEntity[];
+  @HasMany(() => OrderTransactionEntity)
+  transactions: OrderTransactionEntity[];
 }

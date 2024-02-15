@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Interval } from '@nestjs/schedule';
 import { Sequelize, Transaction } from 'sequelize';
-import { TransactionsService } from 'src/transactions/entities/transactions.service';
+import { OrderTransactionsService } from 'src/order-transactions/order-transactions.service';
 
 import { Order } from '../models/order.model';
 import { OrdersService } from './orders.service';
@@ -11,14 +11,13 @@ export class MatchOrdersService {
   constructor(
     private readonly ordersService: OrdersService,
     @Inject('SEQUELIZE') private readonly sequelize: Sequelize,
-    private readonly transactionsService: TransactionsService,
+    private readonly orderTransactionsService: OrderTransactionsService,
   ) {}
 
-  @Interval(2000)
+  // @Interval(2000)
   async matchOrders() {
-    // first check cache
+    // first check cache(not for now)
 
-    // if not in cache, get from db
     // refactor this getOrderBookPair to fetch and cache next orders in line
     const { highestBuyOrder, lowestSellOrder } = await this.getOrderBookPair();
 
@@ -29,7 +28,7 @@ export class MatchOrdersService {
       try {
         // create transaction
         const { quantity: transactionQuantity } =
-          await this.transactionsService.createFromMatchingOrders(
+          await this.orderTransactionsService.createFromMatchingOrders(
             highestBuyOrder,
             lowestSellOrder,
             transaction,
