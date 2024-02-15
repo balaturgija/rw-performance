@@ -3,10 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 
 import { DatabaseModule } from './database/database.module';
+import { OrderTransactionsModule } from './order-transactions/order-transactions.module';
 import { OrdersModule } from './orders/orders.module';
 import { RedisModule } from './redis/redis.module';
 import { StocksModule } from './stocks/stocks.module';
-import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { TransactionsModule } from './transactions/transactions.module';
     DatabaseModule,
     StocksModule,
     OrdersModule,
-    TransactionsModule,
+    OrderTransactionsModule,
   ],
 })
 export class AppModule {}

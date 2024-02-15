@@ -2,9 +2,9 @@ import { join } from 'path';
 import { Transaction } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { SequelizeTypescriptMigration } from 'sequelize-typescript-migration-lts';
+import { OrderTransactionEntity } from 'src/order-transactions/entities/order-transaction.entity';
 import { OrderEntity } from 'src/orders/entities/order.entity';
 import { StockEntity } from 'src/stocks/entities/stock.entity';
-import { TransactionEntity } from 'src/transactions/entities/transaction.entity';
 
 export const databaseProviders = [
   {
@@ -17,7 +17,7 @@ export const databaseProviders = [
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
-        models: [StockEntity, OrderEntity, TransactionEntity],
+        models: [StockEntity, OrderEntity, OrderTransactionEntity],
         define: {
           underscored: true,
           paranoid: true,
